@@ -1,35 +1,35 @@
-# LoginTestCases – AI Assisted Test Case Design
+# LoginTestCases – AI тусламжтай Test Case дизайн
 
-## Project Overview
+## 📌 Төслийн танилцуулга
 
-**LoginTestCases** is a demo project that visually presents login system test cases using **React (Vite)**. The project is designed for **Software Testing, QA, and AI-assisted testing** demonstrations and coursework.
+**LoginTestCases** нь login системийн тест кейсүүдийг **React (Vite)** ашиглан визуал байдлаар харуулсан сургалтын зориулалттай demo төсөл юм. Энэхүү төсөл нь **Програм хангамжийн баталгаа, тестлэлт (Software Testing, QA)** болон **AI-assisted testing** сэдвийн хүрээнд хийгдсэн.
 
-The project focuses on:
+Төсөл нь дараах зорилготой:
 
-* Positive, negative, and edge test cases for login functionality
-* Clear and simple UI representation
-* Use in lectures, reports, and project defenses
-
----
-
-## Technologies Used
-
-| Technology        | Description               |
-| ----------------- | ------------------------- |
-| React             | UI development            |
-| Vite              | Fast build and dev server |
-| JavaScript (ES6+) | Component logic           |
-| Tailwind CSS      | Styling                   |
-| Node.js           | Runtime environment       |
+* Login функционалын **positive, negative, edge** test case-үүдийг харуулах
+* Хэрэглэгчдэд ойлгомжтой, энгийн UI ашиглах
+* Хичээл, тайлан, хамгаалалтад ашиглах боломжтой байх
 
 ---
 
-## Project Structure
+## 🛠 Ашигласан технологи
+
+| Технологи         | Тайлбар                       |
+| ----------------- | ----------------------------- |
+| React             | UI хөгжүүлэлт                 |
+| Vite              | Хурдан build болон dev сервер |
+| JavaScript (ES6+) | Component логик               |
+| Tailwind CSS      | Загварчлал                    |
+| Node.js           | Runtime орчин                 |
+
+---
+
+## 📂 Төслийн бүтэц
 
 ```
 login-testcases/
 ├── src/
-│   ├── LoginTestCases.js
+│   ├── LoginTestCases.js   # Login test case UI компонент
 │   ├── main.jsx
 │   └── index.css
 ├── public/
@@ -40,20 +40,20 @@ login-testcases/
 
 ---
 
-## How to Run the Project
+## ▶️ Төслийг ажиллуулах заавар
 
-### 1. Check Node.js
+### 1️⃣ Node.js шалгах
 
 ```
 node -v
 npm -v
 ```
 
-Recommended version: Node.js 18+
+Node.js 18+ байхыг зөвлөж байна.
 
 ---
 
-### 2. Install Dependencies
+### 2️⃣ Dependency суулгах
 
 ```
 npm install
@@ -61,13 +61,13 @@ npm install
 
 ---
 
-### 3. Start Development Server
+### 3️⃣ Dev сервер асаах
 
 ```
 npm run dev
 ```
 
-Open in browser:
+Browser дээр нээх:
 
 ```
 http://localhost:5173
@@ -75,87 +75,89 @@ http://localhost:5173
 
 ---
 
-## Test Case Categories
+## 🧪 Test Case-үүдийн төрөл
 
-### Positive Test Cases
+### ✅ Positive Test Cases
 
-* Valid username and password
-* Successful login
+* Зөв username болон password
+* Амжилттай login
 
-### Negative Test Cases
+### ❌ Negative Test Cases
 
-* Incorrect password
-* Empty input fields
-* Invalid email format
+* Буруу нууц үг
+* Хоосон талбар
+* Буруу форматтай email
 
-### Edge and Boundary Cases
+### ⚠️ Edge / Boundary Test Cases
 
-* Very long password
-* SQL injection attempt
-* XSS attempt
+* Маш урт password
+* SQL injection оролдлого
+* XSS халдлагын оролдлого
 
 ---
 
-## AI Usage
+## 🤖 AI ашигласан байдал
 
-AI was used for:
+AI-г дараах зорилгоор ашигласан:
 
-* Generating test case lists
-* Suggesting edge cases
-* Improving test case naming and descriptions
+* Test case жагсаалт үүсгэх
+* Edge case-үүд санал болгох
+* Test case-ийн нэршил, тайлбарыг сайжруулах
 
-Example prompt:
+Жишээ prompt:
 
 ```
-Generate positive, negative, and edge test cases for a login system
+Login системд зориулсан positive, negative, edge test case-үүд гаргаж өгнө үү
 ```
 
 ---
 
-## Notes
+## ⚠️ Анхаарах зүйлс
 
-* This project is for educational and testing purposes only
-* Not intended for production use
-* Backend authentication is not included (UI only)
-
----
-
-## Usage Scenarios
-
-* Software Testing courses
-* AI in QA demonstrations
-* Test case design examples
-* Academic reports and presentations
+* Энэхүү төсөл нь **сургалт, тестийн зорилготой**
+* Production системд шууд ашиглахгүй
+* Backend authentication ороогүй (UI only)
 
 ---
 
-## Student Notes
+## 📚 Ашиглах боломжууд
 
-This project helps students:
-
-* Understand test case concepts visually
-* Learn how AI can support QA activities
-* Combine React with software testing topics
-
----
-
-## Conclusion
-
-LoginTestCases demonstrates how modern UI and AI-assisted ideas can be combined to create effective and educational test case demonstrations.
+* Software Testing хичээл
+* AI in QA demo
+* Test case design жишээ
+* Тайлан, хамгаалалтын материал
 
 ---
 
-# AI Test and Synthetic Data Demo
+## 👨‍🎓 Оюутанд зориулсан тэмдэглэл
 
-This repository contains AI-based testing examples developed for a Software Quality Assurance and Testing course. The project includes unit testing, synthetic test data generation, validation, and export examples.
+Энэхүү төсөл нь:
+
+* Test case ойлголтыг бодитоор харах
+* AI-г QA-д хэрхэн ашиглаж болохыг ойлгох
+* React болон тестлэлт хослуулан суралцах
+
+давуу талтай.
 
 ---
 
-## Repository Structure
+## 📌 Дүгнэлт
+
+LoginTestCases төсөл нь login функционалын тестийг **орчин үеийн UI + AI санаа**-тай хослуулсан, сургалтын өндөр ач холбогдолтой demo төсөл юм.
+
+---
+
+# AI Test ба Synthetic Data Demo
+
+Энэхүү репозитор нь **Програм хангамжийн баталгаа ба туршилт** хичээлийн хүрээнд хийгдсэн AI-д суурилсан тестийн жишээ ажлуудыг агуулна.
+
+---
+
+## 📂 Репозиторын бүтэц
 
 ```
 unit-test-demo/
-├── test_email.py
+├── test_email.py              # PyTest unit test жишээ
 ├── synthetic-data/
 │   └── SyntheticDataGenerator.jsx
 ├── README.md
@@ -164,20 +166,20 @@ unit-test-demo/
 
 ---
 
-## Task 2: Unit Test Generator (PyTest)
+## 🧪 Ажил 2: Unit Test Generator (PyTest)
 
-### Description
+### Тайлбар
 
-* Writing unit tests using Python and pytest
-* Testing email validation and edge cases
-* Verifying automated test execution
+* Python болон pytest ашиглан unit test бичих
+* Email шалгалт, edge case-үүдийг тестлэх
+* Автомат тестийн гүйцэтгэлийг шалгах
 
-### Technologies
+### Ашигласан технологи
 
 * Python 3.12+
 * pytest
 
-### How to Run
+### Ажиллуулах заавар
 
 ```
 cd unit-test-demo
@@ -185,24 +187,24 @@ pip install pytest
 pytest
 ```
 
-Note: Avoid placing emojis directly inside Python source files to prevent syntax errors.
+⚠️ Python файл дотор emoji-г comment хэлбэрээр ашиглах шаардлагатай.
 
 ---
 
-## Task 4: Synthetic Test Data Generator (React)
+## 🎲 Ажил 4: Synthetic Test Data Generator (React)
 
-### Description
+### Тайлбар
 
-* AI prompt-based synthetic data without PII
-* Generates user data such as name, email, age, role, and country
-* Validation logic and export functionality
+* AI prompt-д суурилсан, PII агуулаагүй synthetic өгөгдөл
+* Name, email, age, role, country зэрэг өгөгдөл үүсгэнэ
+* Validation болон экспортын боломжтой
 
-### Technologies
+### Ашигласан технологи
 
 * React
 * JavaScript (ES6)
 
-### Run Instructions (Vite Example)
+### Ажиллуулах заавар (Vite)
 
 ```
 npm create vite@latest synthetic-data -- --template react
@@ -211,7 +213,7 @@ npm install
 npm run dev
 ```
 
-Open in browser:
+Browser дээр:
 
 ```
 http://localhost:5173
@@ -219,47 +221,32 @@ http://localhost:5173
 
 ---
 
-## Validation Logic
+## ✅ Validation логик
 
-* Email duplication check
-* Age range validation (18–70)
-* Empty field validation
-* Basic email format validation
-
----
-
-## Export Options
-
-* CSV format for spreadsheets
-* JSON format for API and automation testing
+* Email давхардал шалгана
+* Насны хязгаар (18–70)
+* Хоосон утга шалгана
+* Email формат шалгана
 
 ---
 
-## Synthetic Data Benefits
+## 📊 Export боломжууд
 
-Advantages:
-
-* Protects privacy
-* No production data required
-* Unlimited test data generation
-
-Limitations:
-
-* May not fully represent real-world data
-* Some edge cases may be missing
+* CSV – Excel, Google Sheets-д ашиглах
+* JSON – API болон automation тестэд ашиглах
 
 ---
 
-## Disclaimer
+## ⚠️ Анхааруулга
 
-* All data is synthetic
-* No real personal information is included
-* For educational and testing purposes only
+* Бүх өгөгдөл нь **зохиомол**
+* Бодит хүний мэдээлэл агуулахгүй
+* Зөвхөн **сургалт, тестийн зорилгоор** ашиглана
 
 ---
 
-## Author
+## 👨‍🎓 Зохиогч
 
-* Student: Badrakh Ganbaatar
-* Course: Software Quality Assurance and Testing
-* Topic: AI-assisted testing and synthetic data
+* Оюутан: Бадрах Ганбаатар
+* Хичээл: Програм хангамжийн баталгаа ба туршилт
+* Сэдэв: AI ашигласан тест ба synthetic data

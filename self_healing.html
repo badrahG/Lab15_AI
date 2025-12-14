@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="mn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Self-Healing Automation Demo</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            margin-bottom: 30px;
+        }
+        
+        .header h1 {
+            color: #667eea;
+            font-size: 36px;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            color: #666;
+            font-size: 18px;
+        }
+        
+        .main-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .panel {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        
+        .panel h2 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 24px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .scenario {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border-left: 5px solid #667eea;
+        }
+        
+        .scenario h3 {
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+        
+        .code-block {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            line-height: 1.6;
+            overflow-x: auto;
+            margin: 10px 0;
+        }
+        
+        .code-block .keyword {
+            color: #569cd6;
+        }
+        
+        .code-block .string {
+            color: #ce9178;
+        }
+        
+        .code-block .function {
+            color: #dcdcaa;
+        }
+        
+        .code-block .comment {
+            color: #6a9955;
+        }
+        
+        .html-preview {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            border: 2px dashed #667eea;
+            margin: 10px 0;
+        }
+        
+        .button-demo {
+            padding: 12px 24px;
+            font-size: 16px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .btn-primary {
+            background: #667eea;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: #5568d3;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+        
+        .status {
+            display: inline-block;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: bold;
+            margin: 5px 0;
+        }
+        
+        .status.broken {
+            background: #ff4757;
+            color: white;
+        }
+        
+        .status.fixed {
+            background: #2ed573;
+            color: white;
+        }
+        
+        .comparison {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .comparison-item {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+        }
+        
+        .comparison-item h4 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+        
+        .before {
+            border-left: 4px solid #ff4757;
+        }
+        
+        .after {
+            border-left: 4px solid #2ed573;
+        }
+        
+        .ai-suggestion {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+        
+        .ai-suggestion h4 {
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+        
+        .suggestion-list {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .suggestion-list li {
+            padding: 8px 0;
+            padding-left: 25px;
+            position: relative;
+        }
+        
+        .suggestion-list li:before {
+            content: "🤖";
+            position: absolute;
+            left: 0;
+        }
+        
+        .interactive-demo {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+        
+        .demo-controls {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .demo-controls button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        
+        .demo-controls button:hover {
+            transform: translateY(-2px);
+        }
+        
+        .break-ui {
+            background: #ff4757;
+            color: white;
+        }
+        
+        .heal-ui {
+            background: #2ed573;
+            color: white;
+        }
+        
+        #demoUI {
+            padding: 30px;
+            background: white;
+            border-radius: 8px;
+            text-align: center;
+            border: 3px solid #667eea;
+        }
+        
+        .log-output {
+            background: #1e1e1e;
+            color: #2ed573;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: monospace;
+            font-size: 13px;
+            max-height: 200px;
+            overflow-y: auto;
+            margin-top: 15px;
+        }
+        
+        .log-entry {
+            margin: 5px 0;
+        }
+        
+        .info-box {
+            background: #e7f3ff;
+            border-left: 4px solid #2196F3;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        
+        .info-box h4 {
+            color: #2196F3;
+            margin-bottom: 10px;
+        }
+        
+        @media (max-width: 768px) {
+            .main-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .comparison {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>🤖 АЖИЛ 3: Self-Healing Automation</h1>
+            <p>UI өөрчлөгдөх үед автоматаар засагдах automation систем</p>
+        </div>
+
+        <!-- Main Grid -->
+        <div class="main-grid">
+            <!-- Left Panel - Problem -->
+            <div class="panel">
+                <h2>❌ Уламжлалт Automation</h2>
+                
+                <div class="scenario">
+                    <h3>Анхны HTML:</h3>
+                    <div class="html-preview">
+                        <button id="loginBtn" class="button-demo btn-primary">Login</button>
+                    </div>
+                    
+                    <div class="code-block">
+<span class="comment"># Selenium код</span>
+<span class="keyword">driver</span>.<span class="function">find_element</span>(By.ID, <span class="string">"loginBtn"</span>).<span class="function">click</span>()
+                    </div>
+                    
+                    <span class="status fixed">✓ WORKING</span>
+                </div>
+
+                <div class="scenario">
+                    <h3>Developer HTML өөрчилсөн:</h3>
+                    <div class="html-preview">
+                        <button id="signinButton" class="button-demo btn-primary">Login</button>
+                    </div>
+                    
+                    <div class="code-block">
+<span class="comment"># Хуучин код</span>
+<span class="keyword">driver</span>.<span class="function">find_element</span>(By.ID, <span class="string">"loginBtn"</span>).<span class="function">click</span>()
+<span class="comment"># ❌ NoSuchElementException!</span>
+                    </div>
+                    
+                    <span class="status broken">✗ BROKEN</span>
+                </div>
+
+                <div class="info-box">
+                    <h4>📊 Уламжлалт automation-ий асуудал:</h4>
+                    <ul style="margin-left: 20px; line-height: 1.8;">
+                        <li>ID өөрчлөгдөхөд тест fail болно</li>
+                        <li>QA гараар locator засах хэрэгтэй</li>
+                        <li>Их хугацаа зарцуулна</li>
+                        <li>CI/CD pipeline зогсоно</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Right Panel - Solution -->
+            <div class="panel">
+                <h2>✅ Self-Healing Automation</h2>
+                
+                <div class="scenario">
+                    <h3>AI дахин элемент олох:</h3>
+                    
+                    <div class="ai-suggestion">
+                        <h4>🤖 AI шинжилгээ:</h4>
+                        <ul class="suggestion-list">
+                            <li>ID "loginBtn" олдсонгүй</li>
+                            <li>Бусад locator туршиж байна...</li>
+                            <li>Текст "Login" агуулсан button олдлоо!</li>
+                            <li>ID "signinButton" ашиглаж болно</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="code-block">
+<span class="comment"># AI self-healing логик</span>
+<span class="keyword">try</span>:
+    element = <span class="keyword">driver</span>.<span class="function">find_element</span>(By.ID, <span class="string">"loginBtn"</span>)
+<span class="keyword">except</span> NoSuchElementException:
+    <span class="comment"># AI олон locator туршина</span>
+    alternatives = [
+        (By.XPATH, <span class="string">"//button[contains(text(), 'Login')]"</span>),
+        (By.CSS_SELECTOR, <span class="string">"button[id*='login']"</span>),
+        (By.CSS_SELECTOR, <span class="string">"button[id*='signin']"</span>),
+    ]
+    <span class="keyword">for</span> locator <span class="keyword">in</span> alternatives:
+        <span class="keyword">try</span>:
+            element = <span class="keyword">driver</span>.<span class="function">find_element</span>(*locator)
+            <span class="comment"># ✓ Амжилттай! Шинэ locator хадгална</span>
+            <span class="keyword">break</span>
+        <span class="keyword">except</span>: <span class="keyword">continue</span>
+                    </div>
+                    
+                    <span class="status fixed">✓ AUTO-HEALED</span>
+                </div>
+
+                <div class="info-box">
+                    <h4>💡 Self-Healing давуу тал:</h4>
+                    <ul style="margin-left: 20px; line-height: 1.8;">
+                        <li>UI өөрчлөгдсөн ч тест ажиллана</li>
+                        <li>AI автоматаар шинэ locator олно</li>
+                        <li>Maintenance хугацаа багасна</li>
+                        <li>CI/CD тасралтгүй явна</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Interactive Demo -->
+        <div class="panel">
+            <h2>🎮 Интерактив Demo</h2>
+            
+            <div class="interactive-demo">
+                <div class="demo-controls">
+                    <button class="break-ui" onclick="breakUI()">💥 UI Эвдэх (ID өөрчлөх)</button>
+                    <button class="heal-ui" onclick="healUI()">🔧 Self-Heal (AI засах)</button>
+                    <button onclick="resetUI()" style="background: #667eea; color: white;">🔄 Reset</button>
+                </div>
+                
+                <div id="demoUI">
+                    <h3 style="margin-bottom: 20px;">Login Form</h3>
+                    <button id="loginBtn" class="button-demo btn-primary" onclick="buttonClicked()">Login</button>
+                </div>
+                
+                <div class="log-output" id="logOutput">
+                    <div class="log-entry">> System ready. Click buttons to test...</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Comparison Table -->
+        <div class="panel">
+            <h2>📊 Харьцуулалт: Уламжлалт vs Self-Healing</h2>
+            
+            <div class="comparison">
+                <div class="comparison-item before">
+                    <h4>❌ Уламжлалт Selenium</h4>
+                    <ul style="margin-left: 20px; line-height: 1.8; color: #666;">
+                        <li>Fixed locator ашиглана</li>
+                        <li>UI өөрчлөгдөхөд fail</li>
+                        <li>QA гараар засах</li>
+                        <li>Их хугацаа зарцуулна</li>
+                        <li>Тестүүд хуучирна</li>
+                    </ul>
+                </div>
+                
+                <div class="comparison-item after">
+                    <h4>✅ Self-Healing AI</h4>
+                    <ul style="margin-left: 20px; line-height: 1.8; color: #666;">
+                        <li>Олон locator strategy</li>
+                        <li>Автоматаар засагдана</li>
+                        <li>AI шинэ locator олно</li>
+                        <li>Maintenance багасна</li>
+                        <li>Тогтвортой ажиллана</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Self-Healing Strategies -->
+        <div class="panel">
+            <h2>🎯 Self-Healing Strategies</h2>
+            
+            <div class="scenario">
+                <h3>1. Fallback Locators</h3>
+                <div class="code-block">
+<span class="comment"># Эрэмбээр туршина</span>
+locators = [
+    (By.ID, <span class="string">"loginBtn"</span>),           <span class="comment"># Хамгийн тодорхой</span>
+    (By.NAME, <span class="string">"login"</span>),
+    (By.CSS_SELECTOR, <span class="string">".login-btn"</span>),
+    (By.XPATH, <span class="string">"//button[text()='Login']"</span>)  <span class="comment"># Хамгийн stable</span>
+]
+                </div>
+            </div>
+            
+            <div class="scenario">
+                <h3>2. Visual Recognition</h3>
+                <div class="code-block">
+<span class="comment"># AI зургаар таних</span>
+<span class="keyword">if</span> element_not_found:
+    <span class="comment"># Screenshot авч ML моделд илгээнэ</span>
+    similar_elements = <span class="function">find_by_visual_similarity</span>(screenshot)
+    <span class="keyword">return</span> similar_elements[<span class="string">0</span>]  <span class="comment"># Хамгийн төстэй элемент</span>
+                </div>
+            </div>
+            
+            <div class="scenario">
+                <h3>3. DOM Analysis</h3>
+                <div class="code-block">
+<span class="comment"># HTML бүтцийг шинжлэх</span>
+<span class="keyword">def</span> <span class="function">find_similar_button</span>(old_button_properties):
+    candidates = <span class="function">find_all_buttons</span>()
+    <span class="keyword">for</span> btn <span class="keyword">in</span> candidates:
+        score = <span class="function">calculate_similarity</span>(btn, old_button_properties)
+        <span class="keyword">if</span> score > <span class="string">0.8</span>:  <span class="comment"># 80% төстэй</span>
+            <span class="keyword">return</span> btn
+                </div>
+            </div>
+        </div>
+
+        <!-- Key Takeaways -->
+        <div class="panel">
+            <h2>📝 Хураангуй</h2>
+            
+            <div class="info-box" style="background: #fff3cd; border-color: #ffc107;">
+                <h4 style="color: #856404;">💡 Гол санаа:</h4>
+                <p style="line-height: 1.8; color: #666;">
+                    Self-healing automation нь AI ашиглан UI элементүүдийг динамикаар олж, 
+                    automation тестүүдийг тогтвортой байлгадаг орчин үеийн арга юм. 
+                    Энэ нь QA багийн цаг хэмнэж, CI/CD pipeline-ыг тасралтгүй ажиллуулахад тусалдаг.
+                </p>
+            </div>
+            
+            <div style="background: #f8f9fa; padding: 20px; border-radius: 10px; margin-top: 20px;">
+                <h4 style="margin-bottom: 15px; color: #333;">🛠️ Алдартай инструментүүд:</h4>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
+                    <div style="background: white; padding: 15px; border-radius: 8px; border: 2px solid #667eea;">
+                        <strong style="color: #667eea;">Testim.io</strong>
+                        <p style="font-size: 14px; color: #666; margin-top: 5px;">AI-powered test automation</p>
+                    </div>
+                    <div style="background: white; padding: 15px; border-radius: 8px; border: 2px solid #667eea;">
+                        <strong style="color: #667eea;">Mabl</strong>
+                        <p style="font-size: 14px; color: #666; margin-top: 5px;">Auto-healing tests</p>
+                    </div>
+                    <div style="background: white; padding: 15px; border-radius: 8px; border: 2px solid #667eea;">
+                        <strong style="color: #667eea;">Healenium</strong>
+                        <p style="font-size: 14px; color: #666; margin-top: 5px;">Open-source self-healing</p>
+                    </div>
+                    <div style="background: white; padding: 15px; border-radius: 8px; border: 2px solid #667eea;">
+                        <strong style="color: #667eea;">Selenium 4</strong>
+                        <p style="font-size: 14px; color: #666; margin-top: 5px;">RelativeLocator support</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentId = "loginBtn";
+        
+        function addLog(message, type = 'info') {
+            const logOutput = document.getElementById('logOutput');
+            const timestamp = new Date().toLocaleTimeString();
+            const color = type === 'error' ? '#ff4757' : type === 'success' ? '#2ed573' : '#2ed573';
+            const icon = type === 'error' ? '❌' : type === 'success' ? '✓' : '>';
+            
+            const entry = document.createElement('div');
+            entry.className = 'log-entry';
+            entry.style.color = color;
+            entry.innerHTML = `[${timestamp}] ${icon} ${message}`;
+            
+            logOutput.appendChild(entry);
+            logOutput.scrollTop = logOutput.scrollHeight;
+        }
+        
+        function breakUI() {
+            const button = document.querySelector('#demoUI button');
+            const oldId = button.id;
+            currentId = "signinButton";
+            button.id = currentId;
+            
+            addLog(`UI өөрчлөгдлөө! ID: "${oldId}" → "${currentId}"`, 'error');
+            addLog('Хуучин locator By.ID("loginBtn") ажиллахгүй болсон', 'error');
+            addLog('Тест FAIL болно... 💥', 'error');
+        }
+        
+        function healUI() {
+            const button = document.querySelector('#demoUI button');
+            
+            addLog('🤖 AI Self-Healing эхэллээ...', 'info');
+            
+            setTimeout(() => {
+                addLog('Анхны locator By.ID("loginBtn") олдсонгүй', 'info');
+            }, 500);
+            
+            setTimeout(() => {
+                addLog('Fallback strategies туршиж байна...', 'info');
+            }, 1000);
+            
+            setTimeout(() => {
+                addLog('✓ XPATH "//button[text()=\'Login\']" ашиглан олдлоо!', 'success');
+            }, 1500);
+            
+            setTimeout(() => {
+                addLog(`✓ Шинэ locator By.ID("${currentId}") хадгалагдлаа`, 'success');
+            }, 2000);
+            
+            setTimeout(() => {
+                addLog('🎉 Self-healing амжилттай! Тест үргэлжлэн ажиллаж байна', 'success');
+            }, 2500);
+        }
+        
+        function resetUI() {
+            const button = document.querySelector('#demoUI button');
+            currentId = "loginBtn";
+            button.id = currentId;
+            
+            document.getElementById('logOutput').innerHTML = '<div class="log-entry">> System reset. Ready for testing...</div>';
+            addLog('✓ UI анхны байдалдаа буцлаа', 'success');
+        }
+        
+        function buttonClicked() {
+            addLog('Button clicked! Login successful', 'success');
+        }
+    </script>
+</body>
+</html>
